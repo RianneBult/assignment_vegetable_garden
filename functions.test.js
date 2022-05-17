@@ -1,7 +1,7 @@
 const {
     getYieldForPlant,
     getYieldForCrop,
-    // getTotalYield
+    getTotalYield
 } = require("./functions");
 
 describe("getYieldForPlant", () => {
@@ -43,7 +43,7 @@ describe("getTotalYield", () => {
             { crop: corn, numCrops: 5 },
             { crop: pumpkin, numCrops: 2 },
         ];
-        // expect(getTotalYield({ crops })).toBe(23);
+        expect(getTotalYield({ crops })).toBe(23);
     });
 
     test("Calculate total yield with 0 amount", () => {
@@ -52,6 +52,6 @@ describe("getTotalYield", () => {
             yield: 3,
         };
         const crops = [{ crop: corn, numCrops: 0 }];
-        // expect(getTotalYield({ crops })).toBe(0);
+        expect(getTotalYield({ crops })).toBe(0);
     });
 });
