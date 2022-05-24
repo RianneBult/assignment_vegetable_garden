@@ -59,32 +59,26 @@ const getTotalYield = ({ crops }, environmentFactors) => {
 
 const getCostsForCrop = ({ crops }) => {
     const costs = crops.map(crop => crop.crop.yield * crop.numCrops * crop.crop.cost);
-    return parseFloat(costs);
+    return Number(costs);
 };
 
 const getRevenueForCrop = ({ crops }, environmentFactors) => {
     const revenue = crops.map(crop => getYieldForCrop(crop, environmentFactors) * crop.crop.salePrice);
-    return parseFloat(revenue);
+    return Number(revenue);
 };
 
 const getProfitForCrop = ({ crops }, environmentFactors) => {
-    const profit = crops.map(() => getRevenueForCrop({ crops }, environmentFactors) - getCostsForCrop({ crops }));
+    const profit = getRevenueForCrop({ crops }, environmentFactors) - getCostsForCrop({ crops });
     return Math.round(profit * 10) / 10;
 };
 
 const getTotalProfit = ({ crops }, environmentFactors) => {
+    const revenue = crops.map(crop => getYieldForCrop(crop, environmentFactors) * crop.crop.salePrice)
+        .reduce((prev, curr) => prev + curr, 0);
+    const costs = crops.map(crop => crop.crop.yield * crop.numCrops * crop.crop.cost)
+        .reduce((prev, curr) => prev + curr, 0);
 
-    const profit = crops.map(() => getProfitForCrop({ crops }, environmentFactors));
-    return profit;
-
-
-
-    //Dit werkt, maar is herhalende code
-    // const revenue = crops.map(crop => getYieldForCrop(crop, environmentFactors) * crop.crop.salePrice);
-    // const totalRevenue = revenue.reduce((prev, curr) => prev + curr, 0);
-    // const costs = crops.map(crop => crop.crop.yield * crop.numCrops * crop.crop.cost);
-    // const totalCosts = costs.reduce((prev, curr) => prev + curr, 0);
-    // return totalRevenue - totalCosts;
+    return revenue - costs;
 };
 
 module.exports = {
